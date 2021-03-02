@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Government Spending Analysis</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=1024, initial-scale=1.0">
+        
+            <!-- Data: Country Selection Map -->
+            <script src="https://www.gstatic.com/charts/loader.js"></script>
+            
+            <!-- Google Visualization Charts-->
+            <script>
+                //Loading data and creating response handlers for each sheet
+                 google.charts.load('current', {'packages':['corechart', 'geochart'],
+                'mapsApiKey': 'AIzaSyD51kMFDNPRa9X44IOOnt7qT2aLAy6SGBo'});
+                google.charts.setOnLoadCallback(drawAllSheets); 
+                function drawAllSheets() {
+                    drawSheetName('GDP', 'SELECT A', CountriesResponseHandler)
+                    drawSheetName('Health', 'SELECT B,C,D,E,F,G', HealthResponseHandler);
+                    drawSheetName('Education', 'SELECT B,C,D,E,F,G', EduResponseHandler);
+                    drawSheetName('Military', 'SELECT B,C,D,E,F,G', MilResponseHandler);
+                    drawSheetName('HealthPercentGDP', 'SELECT A,B,C,D,E,F,G,H,I,J,K', HealthPercentGDPResponseHandler);
+                    drawSheetName('EducationPercGDP', 'SELECT A,B,C,D,E,F,G,H,I,J,K', EduPercentGDPResponseHandler);
+                    drawSheetName('MilitaryPercGDP', 'SELECT A,B,C,D,E,F,G,H,I,J,K', MilPercentGDPResponseHandler);
+                    drawSheetName('HealthPerCap15', 'SELECT A,B,C,D,E', HealthPerCap15RH);
+                    drawSheetName('HealthPerCap16', 'SELECT A,B,C,D,E', HealthPerCap16RH);
+                    drawSheetName('HealthPerCap17', 'SELECT A,B,C,D,E', HealthPerCap17RH);
+                    drawSheetName('HealthPerCap18', 'SELECT A,B,C,D,E', HealthPerCap18RH);
+                    drawSheetName('HealthPerCap19', 'SELECT A,B,C,D,E', HealthPerCap19RH);
+                    drawSheetName('EduPerCap15', 'SELECT A,B,C,D,E', EduPerCap15RH);
+                    drawSheetName('EduPerCap16', 'SELECT A,B,C,D,E', EduPerCap16RH);
+                    drawSheetName('EduPerCap17', 'SELECT A,B,C,D,E', EduPerCap17RH);
+                    drawSheetName('EduPerCap18', 'SELECT A,B,C,D,E', EduPerCap18RH);
+                    drawSheetName('EduPerCap19', 'SELECT A,B,C,D,E', EduPerCap19RH);
+                    drawSheetName('MilPerCap15', 'SELECT A,B,C,D,E', MilPerCap15RH);
+                    drawSheetName('MilPerCap16', 'SELECT A,B,C,D,E', MilPerCap16RH);
+                    drawSheetName('MilPerCap17', 'SELECT A,B,C,D,E', MilPerCap17RH);
+                    drawSheetName('MilPerCap18', 'SELECT A,B,C,D,E', MilPerCap18RH);
+                    drawSheetName('MilPerCap19', 'SELECT A,B,C,D,E', MilPerCap19RH);
+                    drawSheetName('HealthChange', 'SELECT B,C', HealthChange15_16RH);
+                    drawSheetName('HealthChange', 'SELECT B,D', HealthChange16_17RH);
+                    drawSheetName('HealthChange', 'SELECT B,E', HealthChange17_18RH);
+                    drawSheetName('HealthChange', 'SELECT B,F', HealthChange18_19RH);
+                    drawSheetName('HealthChange', 'SELECT B,G', HealthChange15_19RH);
+                    drawSheetName('EducationChange', 'SELECT B,C', EduChange15_16RH);
+                    drawSheetName('EducationChange', 'SELECT B,D', EduChange16_17RH);
+                    drawSheetName('EducationChange', 'SELECT B,E', EduChange17_18RH);
+                    drawSheetName('EducationChange', 'SELECT B,F', EduChange18_19RH);
+                    drawSheetName('EducationChange', 'SELECT B,G', EduChange15_19RH);
+                    drawSheetName('MilitaryChange', 'SELECT B,C', MilChange15_16RH);
+                    drawSheetName('MilitaryChange', 'SELECT B,D', MilChange16_17RH);
+                    drawSheetName('MilitaryChange', 'SELECT B,E', MilChange17_18RH);
+                    drawSheetName('MilitaryChange', 'SELECT B,F', MilChange18_19RH);
+                    drawSheetName('MilitaryChange', 'SELECT B,G', MilChange15_19RH);
+                    drawSheetName('HealthPercChange', 'SELECT A,B,C,D,E,F,G,H,I,J,K', HealthPercChangeRH);
+                    drawSheetName('EduPercChange', 'SELECT A,B,C,D,E,F,G,H,I,J,K', EduPercChangeRH);
+                    drawSheetName('MilitaryPercChange', 'SELECT A,B,C,D,E,F,G,H,I,J,K', MilPercChangeRH);
+                    drawSheetName('AverageSpending', 'SELECT A,B,C,D', AverageSpendingRH);
+                    drawSheetName('AveragePercGDP', 'SELECT A,B,C,D', AllPercGDPRH);
+                    drawSheetName('PercChange15.19', 'SELECT A,B,C,D', AllPercChange15_19RH);
+
+                } ///drawAllSheets
+                
+                function drawSheetName(sheetName, query, responseHandler){
+                    var queryString = encodeURIComponent(query);
+                    var query = new google.visualization.Query(
+                        'https://docs.google.com/spreadsheets/d/11fINxyUR_8jFfbWUAsUOIP3AmcPm62pH/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' + queryString);
+                        
+                    query.send(responseHandler);
+                } //drawSheetName
+
+                //Error Handler:
+                function checkError(response){
+                    if(response.isError()) {
+                        alert('Error in query; ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                        return;
+                    }
+                }//checkError                
+                
+                //Selected Countries Map in Data:
+                function CountriesResponseHandler(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {defaultColor: '#fed136'};
+                    var chart = new google.visualization.GeoChart(document.getElementById('countries_div'));
+                    chart.draw(data, options);
+                } //CountriesResponseHandler
+
+
+                //Healthcare Expenditure Overall:
+                function HealthResponseHandler(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Healthcare Expenditure by Country in Billions (Current USD)',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Current Healthcare Expenditure in Billions (current USD)', format: 'currency'},
+                        hAxis: {title: 'Country'},
+                };
+
+                    var chart = new google.visualization.ColumnChart(document.getElementById('health_div'));
+                    chart.draw(data, options);
+                } //HealthResponseHandler
+
+                //Education Expenditure Overall:
+                function EduResponseHandler(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Education Expenditure by Country in Billions (Current USD)',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Current Education Expenditure in Billions (current USD)', format: 'currency'},
+                        hAxis: {title: 'Country'},
+                };
+
+                    var chart = new google.visualization.ColumnChart(document.getElementById('edu_div'));
+                    chart.draw(data, options);
+                } //EduResponseHandler
+                
+                //Military Expenditure Overall:
+                function MilResponseHandler(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Military Expenditure by Country in Billions (Current USD)',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Current Education Expenditure in Billions (current USD)', format: 'currency'},
+                        hAxis: {title: 'Country'},
+                };
+
+                    var chart = new google.visualization.ColumnChart(document.getElementById('mil_div'));
+                    chart.draw(data, options);
+                } //MilResponseHandler
+
+                //Healthcare Expenditure as a % of GDP:
+                function HealthPercentGDPResponseHandler(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+                    data.sort({column: 0, desc: true});
+
+                    var options = {
+                        title: 'Healthcare Expenditure as a Percent of GDP by Country',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Percent of GDP Spent on Healthcare', format: 'percent'},
+                        hAxis: {title: 'Year', format: '####'},
+                    };
+
+                    var chart = new google.visualization.LineChart(document.getElementById('health_gdp_div'));
+                    chart.draw(data, options);
+
+                };//HealthPercentGDPResponseHandler
+
+                //Education Expenditure as a % of GDP:
+                function EduPercentGDPResponseHandler(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Education Expenditure as a Percent of GDP by Country',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Percent of GDP Spent on Education', format: 'percent'},
+                        hAxis: {title: 'Year', format: '####'},
+                    };
+
+                    var chart = new google.visualization.LineChart(document.getElementById('edu_gdp_div'));
+                    chart.draw(data, options);
+
+                };//EduPercentGDPResponseHandler
+
+                //Military Expenditure as a % of GDP:
+                function MilPercentGDPResponseHandler(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+                    data.sort({column: 0, desc: true});
+
+                    var options = {
+                        title: 'Military Expenditure as a Percent of GDP by Country',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Percent of GDP Spent on the Military', format: 'percent'},
+                        hAxis: {title: 'Year', format: '####'},
+                    };
+
+                    var chart = new google.visualization.LineChart(document.getElementById('mil_gdp_div'));
+                    chart.draw(data, options);
+
+                };//MilPercentGDPResponseHandler
+
+                //Healthcare Expenditure Per Capita vs. GDP Per Capita 2015:
+                function HealthPerCap15RH(response){
+                    checkError(response);
+                    var data15 = response.getDataTable();
+
+                    var options = {
+                        title: 'Healthcare Expenditure Per Capita 2015 vs. GDP Per Capita 2015',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Healthcare Expenditure Per Capita', format: '$#,###', ticks:[0,2000,4000,6000,8000,10000,12000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks:[0,10000,20000,30000,40000,50000,60000,70000]},                        
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('health_percap_gdp_15_div'));
+                    chart.draw(data15, options);          
+                };//HealthPerCap15RH
+
+                //Healthcare Expenditure Per Capita vs. GDP Per Capita 2016:
+                function HealthPerCap16RH(response){
+                    checkError(response);
+                    var data16 = response.getDataTable();
+
+                    var options = {
+                        title: 'Healthcare Expenditure Per Capita 2016 vs. GDP Per Capita 2016',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Healthcare Expenditure Per Capita', format: '$#,###', ticks:[0,2000,4000,6000,8000,10000,12000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks:[0,10000,20000,30000,40000,50000,60000,70000]},                        
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('health_percap_gdp_16__div'));
+                    chart.draw(data16, options);          
+                };
+                //Healthcare Expenditure Per Capita 2017 vs. GDP Per Capita 2017:
+                function HealthPerCap17RH(response){
+                    checkError(response);
+                    var data17 = response.getDataTable();
+                    
+                    var options = {
+                        title: 'Healthcare Expenditure Per Capita 2017 vs. GDP Per Capita 2017',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Healthcare Expenditure Per Capita', format: '$#,###'},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###'},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('health_percap_gdp_17__div'));
+                    chart.draw(data17, options);          
+                };
+                //Healthcare Expenditure Per Capita 2018 vs. GDP Per Capita 2018:
+                function HealthPerCap18RH(response){
+                    checkError(response);
+                    var data18 = response.getDataTable();
+
+                    var options = {
+                        title: 'Healthcare Expenditure Per Capita 2018 vs. GDP Per Capita 2018',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Healthcare Expenditure Per Capita', format: '$#,###'},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###'},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                        
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('health_percap_gdp_18__div'));
+                    chart.draw(data18, options);          
+                };
+                //Healthcare Expenditure Per Capita 2019 vs. GDP Per Capita 2019:
+                function HealthPerCap19RH(response){
+                    checkError(response);
+                    var data19 = response.getDataTable();
+
+                    var options = {
+                        title: 'Healthcare Expenditure Per Capita 2019 vs. GDP Per Capita 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Healthcare Expenditure Per Capita', format: '$#,###'},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###'},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('health_percap_gdp_19__div'));
+                    chart.draw(data19, options);          
+                };
+
+                //Education Expenditure Per Capita vs. GDP Per Capita 2015:
+                function EduPerCap15RH(response){
+                    checkError(response);
+                    var data15 = response.getDataTable();
+
+                    var options = {
+                        title: 'Education Expenditure Per Capita 2015 vs. GDP Per Capita 2015',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Education Expenditure Per Capita', format: '$#,###', ticks: [0,5000,10000,15000,20000,25000,30000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},                        
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('edu_percap_gdp_15_div'));
+                    chart.draw(data15, options);          
+                };//EduPerCap15RH
+
+                //Education Expenditure Per Capita vs. GDP Per Capita 2016:
+                function EduPerCap16RH(response){
+                    checkError(response);
+                    var data16 = response.getDataTable();
+
+                    var options = {
+                        title: 'Education Expenditure Per Capita 2016 vs. GDP Per Capita 2016',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Education Expenditure Per Capita', format: '$#,###', ticks: [0,5000,10000,15000,20000,25000,30000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('edu_percap_gdp_16_div'));
+                    chart.draw(data16, options);          
+                };//EduPerCap16RH
+
+                //Education Expenditure Per Capita vs. GDP Per Capita 2017:
+                function EduPerCap17RH(response){
+                    checkError(response);
+                    var data17 = response.getDataTable();
+
+                    var options = {
+                        title: 'Education Expenditure Per Capita 2017 vs. GDP Per Capita 2017',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Education Expenditure Per Capita', format: '$#,###', ticks: [0,5000,10000,15000,20000,25000,30000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('edu_percap_gdp_17_div'));
+                    chart.draw(data17, options);          
+                };//EduPerCap17RH
+
+                //Education Expenditure Per Capita vs. GDP Per Capita 2018:
+                function EduPerCap18RH(response){
+                    checkError(response);
+                    var data18 = response.getDataTable();
+
+                    var options = {
+                        title: 'Education Expenditure Per Capita 2018 vs. GDP Per Capita 2018',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Education Expenditure Per Capita', format: '$#,###', ticks: [0,5000,10000,15000,20000,25000,30000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},                        
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('edu_percap_gdp_18_div'));
+                    chart.draw(data18, options);          
+                };//EduPerCap18RH
+
+                //Education Expenditure Per Capita vs. GDP Per Capita 2019:
+                function EduPerCap19RH(response){
+                    checkError(response);
+                    var data19 = response.getDataTable();
+
+                    var options = {
+                        title: 'Education Expenditure Per Capita 2019 vs. GDP Per Capita 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Education Expenditure Per Capita', format: '$#,###', ticks: [0,5000,10000,15000,20000,25000,30000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('edu_percap_gdp_19_div'));
+                    chart.draw(data19, options);          
+                };//EduPerCap19RH
+
+                //Military Expenditure Per Capita vs. GDP Per Capita 2015:
+                function MilPerCap15RH(response){
+                    checkError(response);
+                    var data15 = response.getDataTable();
+
+                    var options = {
+                        title: 'Military Expenditure Per Capita 2015 vs. GDP Per Capita 2015',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Military Expenditure Per Capita', format: '$#,###', ticks: [0,500,1000,1500,2000,2500,3000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('mil_percap_gdp_15_div'));
+                    chart.draw(data15, options);          
+                };//MilPerCap15RH
+
+                //Military Expenditure Per Capita vs. GDP Per Capita 2016:
+                function MilPerCap16RH(response){
+                    checkError(response);
+                    var data16 = response.getDataTable();
+
+                    var options = {
+                        title: 'Military Expenditure Per Capita 2016 vs. GDP Per Capita 2016',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Military Expenditure Per Capita', format: '$#,###', ticks: [0,500,1000,1500,2000,2500,3000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('mil_percap_gdp_16_div'));
+                    chart.draw(data16, options);          
+                };//MilPerCap16RH
+
+                //Military Expenditure Per Capita vs. GDP Per Capita 2017:
+                function MilPerCap17RH(response){
+                    checkError(response);
+                    var data17 = response.getDataTable();
+
+                    var options = {
+                        title: 'Military Expenditure Per Capita 2017 vs. GDP Per Capita 2017',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Military Expenditure Per Capita', format: '$#,###', ticks: [0,500,1000,1500,2000,2500,3000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('mil_percap_gdp_17_div'));
+                    chart.draw(data17, options);          
+                };//MilPerCap17RH
+
+                //Military Expenditure Per Capita vs. GDP Per Capita 2018:
+                function MilPerCap18RH(response){
+                    checkError(response);
+                    var data18 = response.getDataTable();
+
+                    var options = {
+                        title: 'Military Expenditure Per Capita 2018 vs. GDP Per Capita 2018',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Military Expenditure Per Capita', format: '$#,###', ticks: [0,500,1000,1500,2000,2500,3000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('mil_percap_gdp_18_div'));
+                    chart.draw(data18, options);          
+                };//MilPerCap18RH
+
+                //Military Expenditure Per Capita vs. GDP Per Capita 2019:
+                function MilPerCap19RH(response){
+                    checkError(response);
+                    var data19 = response.getDataTable();
+
+                    var options = {
+                        title: 'Military Expenditure Per Capita 2019 vs. GDP Per Capita 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Military Expenditure Per Capita', format: '$#,###', ticks: [0,500,1000,1500,2000,2500,3000]},
+                        hAxis: {title: 'GDP Per Capita', format: '$#,###', ticks: [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]},
+                        sizeAxis: {minValue: 0,  maxSize: 40},
+                    };
+
+                    var chart = new google.visualization.BubbleChart(document.getElementById('mil_percap_gdp_19_div'));
+                    chart.draw(data19, options);          
+                };//MilPerCap19RH
+
+                //Healthcare Expenditure Change from 2015 to 2016:
+                function HealthChange15_16RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Healthcare Expenditure between 2015 and 2016',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Healthcare Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('health_change_15_16_div'));
+                    chart.draw(data, options);          
+                };//HealthChange15_16RH
+                
+                //Healthcare Expenditure Change from 2016 to 2017:
+                function HealthChange16_17RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Healthcare Expenditure between 2016 and 2017',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Healthcare Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('health_change_16_17_div'));
+                    chart.draw(data, options);          
+                };//HealthChange16_17RH
+
+                //Healthcare Expenditure Change from 2017 to 2018:
+                function HealthChange17_18RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Healthcare Expenditure between 2017 and 2018',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Healthcare Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('health_change_17_18_div'));
+                    chart.draw(data, options);          
+                };//HealthChange17_18RH
+
+                //Healthcare Expenditure Change from 2018 to 2019:
+                function HealthChange18_19RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+ 
+                    var options = {
+                        title: 'Absolute Change in Healthcare Expenditure between 2018 and 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Healthcare Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('health_change_18_19_div'));
+                    chart.draw(data, options);          
+                };//HealthChange18_19RH
+
+                //Healthcare Expenditure Change from 2015 to 2019:
+                function HealthChange15_19RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Healthcare Expenditure between 2015 and 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Healthcare Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('health_change_15_19_div'));
+                    chart.draw(data, options);          
+                };//HealthChange15_19RH
+
+                //Education Expenditure Change from 2015 to 2016:
+                function EduChange15_16RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Education Expenditure between 2015 and 2016',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Education Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('edu_change_15_16_div'));
+                    chart.draw(data, options);          
+                };//EduChange15_16RH
+
+                //Education Expenditure Change from 2016 to 2017:
+                function EduChange16_17RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Education Expenditure between 2016 and 2017',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Education Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('edu_change_16_17_div'));
+                    chart.draw(data, options);          
+                };//EduChange16_17RH
+
+                //Education Expenditure Change from 2017 to 2018:
+                function EduChange17_18RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+ 
+                    var options = {
+                        title: 'Absolute Change in Education Expenditure between 2017 and 2018',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Education Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('edu_change_17_18_div'));
+                    chart.draw(data, options);          
+                };//EduChange17_18RH
+
+                //Education Expenditure Change from 2018 to 2019:
+                function EduChange18_19RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+ 
+                    var options = {
+                        title: 'Absolute Change in Education Expenditure between 2018 and 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Education Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('edu_change_18_19_div'));
+                    chart.draw(data, options);          
+                };//EduChange18_19RH
+
+                //Education Expenditure Change from 2015 to 2019:
+                function EduChange15_19RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+    
+                    var options = {
+                        title: 'Absolute Change in Education Expenditure between 2015 and 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Education Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('edu_change_15_19_div'));
+                    chart.draw(data, options);          
+                };//EduChange15_19RH
+
+                //Military Expenditure Change from 2015 to 2016:
+                function MilChange15_16RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Military Expenditure between 2015 and 2016',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Military Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('mil_change_15_16_div'));
+                    chart.draw(data, options);          
+                };//MilChange15_16RH
+
+                //Military Expenditure Change from 2016 to 2017:
+                function MilChange16_17RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Military Expenditure between 2016 and 2017',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Military Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('mil_change_16_17_div'));
+                    chart.draw(data, options);          
+                };//MilChange16_17RH
+                
+                //Military Expenditure Change from 2017 to 2018:
+                function MilChange17_18RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Military Expenditure between 2017 and 2018',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Military Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('mil_change_17_18_div'));
+                    chart.draw(data, options);          
+                };//MilChange17_18RH
+
+                //Military Expenditure Change from 2018 to 2019:
+                function MilChange18_19RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+ 
+                    var options = {
+                        title: 'Absolute Change in Military Expenditure between 2018 and 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Military Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('mil_change_18_19_div'));
+                    chart.draw(data, options);          
+                };//MilChange18_19RH
+
+                //Military Expenditure Change from 2015 to 2019:
+                function MilChange15_19RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Absolute Change in Military Expenditure between 2015 and 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Absolute Change in Military Expenditure in Millions of USD', format: '$#,###'},
+                        legend: 'none',
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('mil_change_15_19_div'));
+                    chart.draw(data, options);          
+                };//MilChange15_19RH
+                
+                // % Change in Healthcare Expenditures:
+                function HealthPercChangeRH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+                    data.sort({column: 0, desc: false});
+
+                    var options = {
+                        title: 'Percent Change in Healthcare Expenditure Year over Year from 2015 to 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Percent Change in Healthcare Expenditures', format: 'percent'},
+                        hAxis: {title: 'Year'},
+                    };
+
+                    var chart = new google.visualization.LineChart(document.getElementById('health_perc_change_div'));
+                    chart.draw(data, options);
+
+                };//HealthPercChangeRH
+
+                // % Change in Education Expenditures:
+                function EduPercChangeRH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+                    data.sort({column: 0, desc: false});
+
+                    var options = {
+                        title: 'Percent Change in Education Expenditure Year over Year from 2015 to 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Percent Change in Education Expenditures', format: 'percent'},
+                        hAxis: {title: 'Year'},
+                    };
+
+                    var chart = new google.visualization.LineChart(document.getElementById('edu_perc_change_div'));
+                    chart.draw(data, options);
+
+                };//EduPercChangeRH
+
+                // % Change in Military Expenditures:
+                function MilPercChangeRH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+                    data.sort({column: 0, desc: false});
+
+                    var options = {
+                        title: 'Percent Change in Military Expenditure Year over Year from 2015 to 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Percent Change in Military Expenditures', format: 'percent'},
+                        hAxis: {title: 'Year'},
+                    };
+
+                    var chart = new google.visualization.LineChart(document.getElementById('mil_perc_change_div'));
+                    chart.draw(data, options);
+
+                };//MilPercChangeRH
+
+                //Average of Healthcare, Education, and Military Spending from 2015 to 2019:
+                function AverageSpendingRH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Average of Overall Healthcare, Education, and Military Spending from 2015 to 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Governmental Spending in Billions of Current USD', format: 'currency'},
+                        hAxis: {title: 'Country'},
+                };
+
+                    var chart = new google.visualization.ColumnChart(document.getElementById('average_spending_div'));
+                    chart.draw(data, options);
+                } //AllSpending19RH                 
+
+                //Comparison of Percent of GDP on Health, Education and Military Spending:
+                function AllPercGDPRH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Average Percent of GDP Spent on Healthcare, Education and Military Spending from 2015 to 2019',
+                        titleTextStyle: {fontSize: 18},
+                        legend: {position: 'top', maxLines: 1},
+                        bar: {groupWidth: '75%'},
+                        isStacked: true,
+                        vAxis: {title: 'Country'},
+                        hAxis: {title: 'Average Percent of GDP Spent on Healthcare, Education and Military Spending', format: 'percent'},
+                    };
+
+                    var chart = new google.visualization.BarChart(document.getElementById('all_perc_gdp_div'));
+                    chart.draw(data, options);
+                } //PercGDPRH
+
+                //Comparison of Percent Change in Expenditures 2015 to 2019:
+                function AllPercChange15_19RH(response){
+                    checkError(response);
+                    var data = response.getDataTable();
+
+                    var options = {
+                        title: 'Percent Change in Governmental Expenditures from 2015 to 2019',
+                        titleTextStyle: {fontSize: 18},
+                        vAxis: {title: 'Percent Change in Governmental Expenditures from 2015 to 2019', format: 'percent'},
+                        hAxis: {title: 'Country'},
+                };
+
+                    var chart = new google.visualization.ColumnChart(document.getElementById('all_perc_change_15_19_div'));
+                    chart.draw(data, options);
+                } //HealthResponseHandler
+
+                </script>
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Governmental Spending Analysis</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ml-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ml-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#data">Data</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#health">Health</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Education</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#military">Military</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#analysis">Analysis</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container">
+                <div class="masthead-subheading">Analysis of the Top 10 Countries of the G20</div>
+                <div class="masthead-heading text-uppercase">Health, Education, and Military Spending</div>
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#data">Show Me More</a>
+            </div>
+        </header>
+
+        <!-- Data -->
+        <section class="page-section" id="data">
+            <div class="container">
+                <div class="text-center">
+                    <h4 class="section-heading text-uppercase">Introduction</h4>
+                    <p class="text-muted">It is the responsibility of any government to serve its people by providing funding for social programs as well as protect its people from harm.
+                         However, each country allocates its budget differently, according to its priorities and the needs of the nation. In 2015, the United Nations 
+                         member states met to reevaluate the Millennium Development Goals, ultimately creating Sustainable Development Goals to be achieved by 2030. 
+                         These 17 goals provide “a shared blueprint for peace and prosperity for people and the planet, now and into the future.” 
+                        <a href="https://sdgs.un.org/goals">1</a> With these goals in mind, this project will examine how 10 of the G20 countries have allocated 
+                        spending towards healthcare, education, and the military from 2015 to 2019 as a proxy measure towards progress on these goals. </p>
+                    </h3>
+                    <br>
+                    <br>
+                    <h2 class="section-heading text-uppercase">Data</h2>
+                    <h3 class="section-subheading text-muted">Full dataset used for this analysis can be accessed 
+                        <a href="https://drive.google.com/file/d/11fINxyUR_8jFfbWUAsUOIP3AmcPm62pH/view?usp=sharing">here.</a>
+                    <br>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-medkit fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h4 class="my-3">Healthcare Spending</h4>
+                        <p class="text-muted">Data on healthcare spending, as well as Gross Domestic Product (GDP) data, were sourced from <a href="https://data.worldbank.org/indicator/SH.XPD.CHEX.PP.CD">The World Bank.</a> </p>
+                        <br>
+                        <p class="text-muted"><i>Note: </i>  Data for the year 2019 was unavailable, therefore it was calculated by taking the average change in spending year over year from 2014 - 2018 
+                            and adding it to the spending from 2018.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-graduation-cap fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h4 class="my-3">Education Spending</h4>
+                        <p class="text-muted">Data from education spending was sourced from The United Nations Educational, Scientific and Cultural Organization
+                            <a href="http://data.uis.unesco.org/">(UNESCO).</a> 
+                        </p>
+                        <br>
+                        <p class="text-muted"> <i>Note: </i>  Spending data on education was not available for Canada, China, and Saudi Arabia. Years with missing data 
+                            were calculated by taking the average change in spending year over year from 2011 - 2017 and adding it to the total spending from the 
+                            previous year.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                            <i class="fas fa-globe fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h4 class="my-3">Military Spending</h4>
+                        <p class="text-muted">Data from military spending was sourced from the Stockholm International Peace Research Institute <a href="https://www.sipri.org/databases/milex">(SIPRI).</a></p>
+                    </div>
+                </div>
+                <br>
+                <div class="text-center">
+                    <h3 class="section-heading">Countries in the G20 Selected for Analysis</h3>
+                </div>
+                <br>
+                <div class="text-center" id="countries_div" style="width: 900px; height: 500px;"></div>
+                <br>
+
+            </div>
+        </section>
+
+        <!-- Health Spending-->
+        <section class="page-section bg-light" id="health">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Healthcare Spending</h2>
+                    <h3 class="section-subheading text-muted"> <a href="https://sdgs.un.org/goals">UN Sustainable Development Goal 3</a> is to "ensure healthy lives and promote
+                        well-being for all at all ages." Healthcare spending is more critical now than ever before, given the global 
+                        pandemic. With this goal in mind, the data visualizations below explores healthcare spending of our 10 selected 
+                        countries in the G20 from 2015 to 2019. 
+                    </h3>
+                </div>
+            <br>
+            <div class="text-center" id="health_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <br>
+            <br>
+            <div class="text-center" id="health_gdp_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <br>
+            <br>
+            <div class="text-center" id="health_percap_gdp_15_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center"  id="health_percap_gdp_16__div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center"  id="health_percap_gdp_17__div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center"  id="health_percap_gdp_18__div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center"  id="health_percap_gdp_19__div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <br>
+            <br>
+            <div class="text-center" id="health_change_15_16_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center" id="health_change_16_17_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center" id="health_change_17_18_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center" id="health_change_18_19_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center" id="health_change_15_19_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <br>
+            <br>
+            <div class="text-center" id="health_perc_change_div" style="width: 900px; height: 500px;"></div>            
+        </section> 
+
+        <!-- Education Spending -->
+        <section class="page-section" id="education">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Education Spending</h2>
+                    <h3 class="section-subheading text-muted"><a href="https://sdgs.un.org/goals">UN Sustainable Development Goal 4</a> is to
+                        "ensure inclusive and equitable quality education and promote lifelong learning opportunities for all." With this goal
+                        in mind, we will analyze education spending for our selected G20 countries from 2015 to 2019. As previously mentioned
+                        above, no recent data was available for Canada, China, or Saudi Arabia.
+                    </h3>
+                </div>
+            <br>
+            <div class="text-center" id="edu_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <br>
+            <br>
+            <div class="text-center" id="edu_gdp_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <br>
+            <br>
+            <div class="text-center" id="edu_percap_gdp_15_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center"  id="edu_percap_gdp_16_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center"  id="edu_percap_gdp_17_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center"  id="edu_percap_gdp_18_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center"  id="edu_percap_gdp_19_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <br>
+            <br>
+            <div class="text-center" id="edu_change_15_16_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center" id="edu_change_16_17_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center" id="edu_change_17_18_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center" id="edu_change_18_19_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <div class="text-center" id="edu_change_15_19_div" style="width: 900px; height: 500px;"></div>
+            <br>
+            <br>
+            <br>
+            <div class="text-center" id="edu_perc_change_div" style="width: 900px; height: 500px;"></div>
+        </div>
+        </section>
+
+        <!-- Military Spending -->
+        <section class="page-section bg-light" id="military">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Military Spending</h2>
+                    <h3 class="section-subheading text-muted"><a href="https://sdgs.un.org/goals">UN Sustainable Development Goal 16</a> is to
+                    "promote peaceful and inclusive societies for Sustainable Development, provide access to justice for all and build effective,
+                    accountable and inclusive institutions at all levels." With the goal of peace in mind, the visualizations below examine 
+                    military spending of our 10 selected countries in the G20 from 2015 to 2019.
+                    </h3>
+                </div>
+                <br>
+                <div class="text-center" id="mil_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <br>
+                <br>
+                <div class="text-center" id="mil_gdp_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <br>
+                <br>
+                <div class="text-center" id="mil_percap_gdp_15_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <div class="text-center"  id="mil_percap_gdp_16_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <div class="text-center"  id="mil_percap_gdp_17_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <div class="text-center"  id="mil_percap_gdp_18_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <div class="text-center"  id="mil_percap_gdp_19_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <br>
+                <br>
+                <div class="text-center" id="mil_change_15_16_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <div class="text-center" id="mil_change_16_17_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <div class="text-center" id="mil_change_17_18_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <div class="text-center" id="mil_change_18_19_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <div class="text-center" id="mil_change_15_19_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <br>
+                <br>
+                <div class="text-center" id="mil_perc_change_div" style="width: 900px; height: 500px;"></div>
+        </section>
+
+        <!-- Comparative Analysis -->
+        <section class="page-section" id="analysis">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Comparative Analysis</h2>
+                    <h3 class="section-subheading text-muted">Comparing health, education and military spending.</h3>
+                </div>
+                <br>
+                <div class="text-center" id="average_spending_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <br>
+                <div class="text-center" id="all_perc_gdp_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <br>
+                <div class="text-center" id="all_perc_change_15_19_div" style="width: 900px; height: 500px;"></div>
+                <br>
+                <div class="text-center">
+                    <h4 class="section-heading text-uppercase">Key Findings</h4>
+                    <p class="text-muted">When it comes to overall spending on healthcare, the spending of the rest of the countries in our analysis are dwarfed in comparison to the United States. No other country in our sample has even come close to passing the one trillion-dollar mark, while the United States has spent well over $3 trillion every year since 2015. When expressed as a percent of GDP, the US maintains its dominance as the biggest spender on healthcare, spending approximately 17% of its GDP on health. Meanwhile, China’s spending on healthcare, while the second highest of the group overall, has hovered around 5% of GDP each year for the last five years. Next, I sought to compare healthcare expenditure per capita and GDP per capita to see if there were any significant relationships. Year over year, I found that there is a strong, positive, linear relationship between healthcare expenditure per capita and GDP per capita for all five years examined, with Australia as a potential outlier. To find which country was moving towards achieving Sustainable Development Goal 3 the fastest, I examined the absolute change in healthcare expenditure between each year. While most countries in the analysis increased spending in one year only to decrease spending the next, the US and China consistently increased their spending on healthcare every year by the largest amounts. When comparing the absolute change in healthcare expenditure from 2015 to 2019, the United States and China increased spending the most, while Argentina, Australia, and the UK all decreased healthcare expenditures. Over the last five years, the US, China, and Canada are the only three countries in our cohort who consistently experienced positive growth year over year. Interestingly, the largest percent change for all the countries occurred between 2016 and 2017, with Saudi Arabia increasing its spending by 28.14%, with Argentina and Russia close behind with jumps of 27.73% and 25.14%, respectively. While these countries did have dramatic increases in expenditures, they also experienced dramatic decreases in the last five years. Therefore, I believe that China is the fastest growing country in terms of healthcare expenditures.</p>
+                    <br>
+                    <p class="text-muted">The United States also spends the most money annually on education than any other country in our analysis. The US spends three times more every year than the second highest country, France. While recent data on Canada, China, and Saudi Arabia were not publicly available for comparison, it is likely that annual education expenditures in the United States would still be the largest. Looking at education expenditure as a percent of GDP, however, France experienced a steady increase in education spending, allocating 7% of its GDP towards education in 2019. This annual increase in spending in France can also be seen clearly when comparing education expenditure per capita to GDP per capita year over year. While most countries hover well below the $10K per capita mark each year, France and the US steadily increase education spending year over year as GDP per capita also steadily increases. Unlike in healthcare spending, there is very little evidence of a linear relationship between education expenditure per capita and GDP per capita in the last five years. France’s rapid increase in education spending is most evident when examining the absolute change in education expenditures year over year, even surpassing the increase in spending by the US some years. However, Russia surprisingly increased by the largest margin in percent change in education expenditure from 2016 to 2017, with an increase of 53% that year. Based on France’s consistent, significant growth in education expenditures each year for the last five years, I contend that it is the fasted growing country in educational spending.</p>
+                    <br>
+                    <p class="text-muted">Finally, the United States also spends more than any other country in our cohort on military expenditures each year over the last five years than all the other countries in our cohort. The US spends three times more than the second highest spending country, China. However, analyzing military spending as a percent of GDP tells a different story. While the US spends a little over 3% of its GDP annually on military expenditures, both Russia and Saudi Arabia spent at higher rates every year, with Saudi Arabia spending 13% of its GDP on the military in 2015. Likewise, when analyzing military expenditure per capita vs GDP per capita, Saudi Arabia is the only country that surpasses per capita spending on the military of the United States, in 2015, 2017, and 2018. Similar to our analysis on education expenditures, there is no clear linear relationship between military expenditure per capita and GDP per capita. While many countries experienced fluctuations in absolute change in military expenditure year over year, the United States experienced the largest, most consistent growth in the last five years, followed by China. Interestingly, Canada and Argentina experienced the largest spikes in percent change in military spending from 2016 to 2017, increasing spending by 25% and 21%, respectively.</p>
+                    <br>
+                    <br>
+                    <h4 class="section-heading text-uppercase">Learning Process</h4>
+                    <p class="text-muted">My learning process for this project was incredibly iterative, as I continually went back to code I had previously written to make small changes when I learned more information or when an error popped up. Initially I struggled by having too many windows opened in Visual Studio Code, which caused confusion and connection errors. I also had issues finding and manipulating data, as reporting was sporadic based on the country, and some countries simply had no data whatsoever. Manipulating the datasets in Excel made the process slightly easier but created lots of room for little errors to find their way into the data. It was also a bit of an adjustment to have to manipulate the data in the spreadsheet to fit the chart, rather than changing the settings in the chart to fit the data. Initially I wanted to create a drop-down menu to be able to page through years of data in a chart, but after two full days of attempting several different methods, I was never able to get the code to work properly. I intentionally chose a bootstrap template that has all the sections on one page for clearer storytelling, however, this causes the page to take an exceptionally long time to load and ultimately causes errors. For my next project, I will not choose to do a one-page bootstrap template to hopefully prevent these issues from occurring.</p>
+                    <br>
+                    <br>
+                    <h4 class="section-heading text-uppercase">Conclusion</h4>
+                    <p class="text-muted">As is evident from this analysis, when comparing governmental spending on healthcare, education, and the military, the United States spends the most overall out of all 10 countries in our analysis. Of these three expenditures, the US spends the most on average on education, followed by healthcare. Averaging expenditures over the last five years, France spent more on education than the US spent on the military and is the only country to spend more on average than the United States in any category. On average, every country in our analysis spends the highest percentage of its GDP on healthcare, with the exception of Saudi Arabia. Cumulatively, it is somewhat unsurprising to see that the US spend the highest cumulative percent of its GDP on healthcare, education, and the military than any of the other countries selected. Lastly, when examining the percent change in governmental expenditures from 2015 to 2019, we can see that France had a dramatic 122% increase in spending in on education in the last five years, the largest increase of any country in any category by far. The second highest increase is China with an increase of 45% in healthcare spending from 2015 to 2019. Additionally, Argentina and Saudi Arabia both dramatically decreased their spending on the military in the last five years by 42% and 29%, respectively. Intriguingly, the United Kingdom is the only country to have decreased its spending in all measures over the last five years.</p>
+                    <br>
+                    <p class="text-muted">One interesting finding from this analysis was, while the United States and China increased spending the most from 2015 to 2019, while Argentina, Australia, and the UK all decreased healthcare expenditures. Considering that each of these three countries have some form of socialized medicine or universal public health insurance program, it is interesting that these countries have decreased spending over the last five years given the government’s increased responsibility towards its citizens. It would be interesting to analyze whether the decreased expenditures are correlated with the increased access to healthcare, as it tends to provide greater health outcomes for its citizens. With the world experiencing a global pandemic beginning in the end of 2019, I predict that the healthcare spending of every country in this analysis increased in 2020. Likewise, I project that education spending by every country will also increase due to the impacts of the global pandemic, which classrooms and schools needing to update infrastructure and ventilation systems to provide a safe learning environment for students. While some countries may experience a decrease in military spending in 2020 given the pandemic, it is likely that the US will have increased military expenditures in 2020 given the recent creation of a new branch of the military, the Space Force. Additionally, it is likely that China experienced another increase in military spending in 2020, given the government’s recent detention of the ethnic Uighurs and Muslims into internment camps in Xinjiang.</p>
+                    <br>
+                    <p class="text-muted">In the context of the Sustainable Development Goals, many countries are successfully working towards increasing their funding towards healthcare to meet goal 3 of ensuring good health and wellbeing. However, government expenditure is not the only indicator of investment in good health outcomes, and more needs to be done by every country to improve the wellbeing of every citizen. As the world recovers from the global pandemic, there are many uncertainties about the long-term effects of the virus, and countries need to continue to invest in healthcare infrastructure to make sure we achieve this goal. Every country in our cohort, except for Australia and the UK increased their spending in education since the creation of the Sustainable Development goal 4 in 2015. Increasing investments in quality education is a vitally important toward creating a more equitable and sustainable world, and France has made the largest investment in this space of any of the selected countries in the last five years. Sustainable Development Goal 16 works towards promoting a more peaceful society, and military spending directly contradicts this goal. In the last five years, only Argentina, the UK, Russia, and Saudi Arabia have made progress in reducing military expenditures, if only marginally. The process of creating a more collaborative, sustainable world necessitates a reduction in military spending, and many of the countries in our analysis have a long way to go towards making progress on this goal. </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-lg-left">
+                        Copyright © Elise Roberts Scruggs <script>var d = new Date(); document.write(d.getFullYear());</script>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
